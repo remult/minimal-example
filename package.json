@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "tsx": "4.7.0"
+  },
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "dependencies": {
+    "remult": "^0.24.1"
+  }
+}
