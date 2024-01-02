@@ -12,7 +12,7 @@
   "tasks": {
     "dev:server": {
       "name": "dev:server",
-      "command": "npm run dev -w server",
+      "command": "CODESANDBOX=true npm run dev -w server",
       "runAtStart": true,
       "preview": {
         "port": 0

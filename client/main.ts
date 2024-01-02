@@ -15,9 +15,7 @@ async function demo() {
     email: `${r}@remult.dev`,
   });
 
-  log(
-    `New Customer "${newCustomer.name}" created with id: "${newCustomer.id}"`
-  );
+  log(`New Customer <i>${newCustomer.name}</i> (id: <i>${newCustomer.id.substring(0, 6) + "..."}</i>) created`);
 
   const newProduct1 = await repo(Product).insert({
     name: `Product${r}`,
@@ -25,9 +23,8 @@ async function demo() {
     stockQuantity: 10,
   });
 
-  log(
-    `New Product "${newProduct1.name}" created with id: "${newProduct1.id}". ${newProduct1.stockQuantity} items in stock.`
-  );
+  log(`New Product <i>${newProduct1.name}</i> (id: <i>${newProduct1.id.substring(0, 6) + "..."}</i>) 
+    created with <i>${newProduct1.stockQuantity}</i> items in stock.`);
 
   const newProduct2 = await repo(Product).insert({
     name: `Product${r + "_"}`,
@@ -35,9 +32,8 @@ async function demo() {
     stockQuantity: 100,
   });
 
-  log(
-    `New Product "${newProduct2.name}" created with id: "${newProduct2.id}". ${newProduct2.stockQuantity} items in stock.`
-  );
+  log(`New Product <i>${newProduct2.name}</i> (id: <i>${newProduct2.id.substring(0, 6) + "..."}</i>) 
+    created with <i>${newProduct2.stockQuantity}</i> items in stock.`);
 
   await signIn("SalesRep");
 
@@ -59,7 +55,7 @@ async function demo() {
       quantity: 1,
     });
 
-  log(`New Order created with id: ${newOrder.id}`);
+  log(`New Order (id: <i>${newOrder.id.substring(0, 6) + "..."}</i>) created`);
 
   await signIn("Manager");
 
@@ -72,25 +68,24 @@ async function demo() {
 
   for (const order of orders) {
     log(
-      `Order ${order.id} for ${
-        order.customer.name
-      }, dated ${order.orderDate.toLocaleDateString()} is ${
+      `Order for <i>${order.customer.name}</i>, dated <i>${order.orderDate.toLocaleDateString()}</i> is in status <i>${
         order.status
-      }: ${order.orderDetails.map(
+      }</i>: ${order.orderDetails.map(
         (detail) =>
-          `<br/>item: ${detail.product.name}, quantity: ${detail.quantity}, unit price: ${detail.unitPrice}`
+          `<br/>Item: <i>${detail.product.name}</i>, quantity: <i>${detail.quantity}</i>, unit price: <i>${detail.unitPrice}</i>`
       )}`
     );
 
     await repo(Order).save({ ...order, status: "Shipped" });
-    log(`Order shipped`);
+
+    log(`Order status updated to <i>Shipped</i>`);
   }
 
   const product1 = await repo(Product).findId(newProduct1.id);
-  log(`Current stock quantity of ${product1.name}: ${product1.stockQuantity}`);
+  log(`Current stock quantity of <i>${product1.name}</i> is <i>${product1.stockQuantity}</i>`);
 
   const product2 = await repo(Product).findId(newProduct2.id);
-  log(`Current stock quantity of ${product2.name}: ${product2.stockQuantity}`);
+  log(`Current stock quantity of <i>${product2.name}</i> is <i>${product2.stockQuantity}</i>`);
 }
 
 demo();
@@ -106,7 +101,7 @@ async function signIn(username: string) {
         body: JSON.stringify({ username }),
       })
     ).json();
-    log(`Signed in as '${user.name}'`);
+    log(`Signed in as <i>${user.name}</i>`);
     remult.user = user;
   } catch (error) {
     log(`Sign in failed ${error}`);
@@ -119,7 +114,5 @@ async function signOut() {
 }
 
 function log(message: string) {
-  document.querySelector<HTMLDivElement>(
-    "#app"
-  )!.innerHTML += `<p>${message}</p>`;
+  document.querySelector<HTMLDivElement>("#app")!.innerHTML += `<p>${message}</p>`;
 }
