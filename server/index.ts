@@ -6,23 +6,14 @@ import swaggerUi from "swagger-ui-express";
 
 const app = express();
 
-if (process.env["CODESANDBOX"]) {
-  app.set("trust proxy", 1);
+app.set("trust proxy", 1);
 
-  app.use(
-    session({
-      secret: "shhhhhhhhhhh",
-      sameSite: "none",
-      secure: true,
-    })
-  );
-} else {
-  app.use(
-    session({
-      secret: "shhhhhhhhhhh",
-    })
-  );
-}
+app.use((req, res, next) =>
+  session({
+    secret: "shhhhhhhhhhh",
+    sameSite: req.secure ? "none" : undefined,
+  })(req, res, next)
+);
 
 app.use(auth);
 
