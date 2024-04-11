@@ -14,6 +14,6 @@
     "shared"
   ],
   "dependencies": {
-    "remult": "^0.24.1"
+    "remult": "latest"
   }
 }
